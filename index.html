@@ -242,3 +242,39 @@ play_game()
 
 </body>
 </html>
+<script>
+function copyCode() {
+const code = document.getElementById("codeBlock").innerText;
+navigator.clipboard.writeText(code).then(() => {
+alert("Code copied to clipboard! 🚀");
+});
+}
+function searchSite() {
+const query = document.getElementById("searchInput").value.toLowerCase();
+if (!query) {
+alert("Type something to search 🔍");
+return;
+}
+
+
+const sections = document.querySelectorAll("section");
+let found = false;
+
+
+sections.forEach(section => {
+if (section.innerText.toLowerCase().includes(query)) {
+section.scrollIntoView({ behavior: "smooth" });
+found = true;
+}
+});
+
+
+if (!found) {
+alert("No results found 😕");
+}
+}
+</script>
+
+
+</body>
+</html>
