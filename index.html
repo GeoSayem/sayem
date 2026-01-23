@@ -59,6 +59,7 @@
       max-width: 1000px;
       margin: 60px auto;
       padding: 0 20px;
+      scroll-margin-top: 90px; /* prevents sticky navbar from covering section */
     }
 
     .card {
@@ -117,12 +118,12 @@
       <a href="#contact">Contact</a>
     </div>
 
-    <div style="margin-left:auto; margin-right:20px; position:relative;">
-      <input type="text" id="searchInput" placeholder="Search..." 
-        style="padding:6px 10px; border-radius:6px; border:none; outline:none;" />
-      <button onclick="searchSite()" 
-        style="margin-left:6px; padding:6px 10px; border:none; border-radius:6px; background:#00e0ff; cursor:pointer;">
-        Search
+    <div style="margin-left:auto; margin-right:20px; position:relative; display:flex; align-items:center;">
+      <input type="text" id="searchInput" placeholder="Search..."
+        style="width:0; opacity:0; padding:6px 10px; border-radius:20px; border:none; outline:none; transition:all 0.3s ease;" />
+      <button onclick="toggleSearch()"
+        style="margin-left:8px; padding:8px 10px; border:none; border-radius:50%; background:#00e0ff; cursor:pointer; font-size:1rem;">
+        🔍
       </button>
     </div>
   </nav>
@@ -233,17 +234,25 @@ play_game()
   <section id="contact">
     <div class="card">
       <h2>Contact</h2>
-      <p>
-        📧 Email: 
-        <a href="mailto:sayem@gmail.com" style="color:#00e0ff; text-decoration:none;">
-          sayem@gmail.com
+      <div style="display:flex; gap:30px; justify-content:center; font-size:2rem;">
+
+        <a href="mailto:sayem@gmail.com" title="Email" style="color:#00e0ff; text-decoration:none;">
+          📧
         </a>
-        <br /><br />
-        💻 GitHub: 
-        <a href="https://github.com/geosayem" target="_blank" style="color:#00e0ff; text-decoration:none;">
-          github.com/geosayem
+
+        <a href="https://github.com/geosayem" target="_blank" title="GitHub" style="color:#00e0ff; text-decoration:none;">
+          🐙
         </a>
-      </p>
+
+        <a href="https://www.instagram.com/mohammadsayemansari" target="_blank" title="Instagram" style="color:#00e0ff; text-decoration:none;">
+          📸
+        </a>
+
+        <a href="https://www.linkedin.com/in/mohammad-sayem-ansari-a254451b7" target="_blank" title="LinkedIn" style="color:#00e0ff; text-decoration:none;">
+          🔗
+        </a>
+
+      </div>
     </div>
   </section>
 
@@ -272,31 +281,29 @@ play_game()
       if (section.innerText.toLowerCase().includes(query)) {
         section.scrollIntoView({ behavior: "smooth" });
         found = true;
-     }
-});
+      }
+    });
 
-
-if (!found) {
-alert("No results found 😕");
-}
-}
-function toggleSearch() {
-const input = document.getElementById("searchInput");
-if (input.style.width === "0px" || input.style.width === "") {
-input.style.width = "160px";
-input.style.opacity = "1";
-input.focus();
-} else {
-if (input.value.trim() !== "") {
-searchSite();
-}
-input.style.width = "0";
-input.style.opacity = "0";
-input.value = "";
-}
-}
+    if (!found) {
+      alert("No results found 😕");
+    }
+  }
+  function toggleSearch() {
+    const input = document.getElementById("searchInput");
+    if (input.style.width === "0px" || input.style.width === "") {
+      input.style.width = "160px";
+      input.style.opacity = "1";
+      input.focus();
+    } else {
+      if (input.value.trim() !== "") {
+        searchSite();
+      }
+      input.style.width = "0";
+      input.style.opacity = "0";
+      input.value = "";
+    }
+  }
 </script>
-
 
 </body>
 </html>
