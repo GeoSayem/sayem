@@ -42,6 +42,7 @@
       padding: 15px 20px;
       position: sticky;
       top: 0;
+      z-index: 1000;
     }
 
     nav a {
@@ -100,6 +101,32 @@
       header h1 {
         font-size: 2.2rem;
       }
+
+      /* Stack navbar items on mobile */
+      nav {
+        flex-direction: column;
+        padding: 10px;
+      }
+
+      nav > div:first-child {
+        position: static !important;
+        transform: none !important;
+        gap: 15px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* Move search below nav links */
+      nav > div:last-child {
+        margin: 0 auto;
+      }
+
+      #searchInput {
+        width: 140px !important;
+        opacity: 1 !important;
+      }
+    }
     }
   </style>
 </head>
@@ -115,16 +142,15 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
+      <a href="#posts">Posts</a>
       <a href="#contact">Contact</a>
     </div>
 
-    <div style="margin-left:auto; margin-right:20px; position:relative; display:flex; align-items:center;">
+    <div style="margin-left:auto; margin-right:20px; position:relative; display:flex; align-items:center; margin-top:8px;">
       <input type="text" id="searchInput" placeholder="Search..."
         style="width:0; opacity:0; padding:6px 10px; border-radius:20px; border:none; outline:none; transition:all 0.3s ease;" />
       <button onclick="toggleSearch()"
-        style="margin-left:8px; padding:8px 10px; border:none; border-radius:50%; background:#00e0ff; cursor:pointer; font-size:1rem;">
-        🔍
-      </button>
+        style="margin-left:8px; padding:8px 10px; border:none; border-radius:50%; background:rgba(0,0,0,0.35); cursor:pointer; font-size:1.2rem; color:#ffffff; box-shadow:0 0 8px rgba(0,224,255,0.6);">🔍</button>
     </div>
   </nav>
 
@@ -231,26 +257,83 @@ play_game()
     </div>
   </section>
 
+  <section id="posts">
+    <div class="card">
+      <h2>Posts</h2>
+      <p style="opacity:0.9;">
+      
+      </p>
+
+      <div style="margin-top:25px; display:grid; gap:20px;">
+
+        <div class="card">
+          <h3 style="color:#00e0ff; margin-bottom:10px;">📝 Learning Python: Basics & Practice</h3>
+          <p style="font-size:0.95rem; opacity:0.9;">
+            I started learning Python to build a strong foundation in programming. I focused on
+            basics like variables, data types, conditional statements, loops, and functions.
+            Practicing small programs such as number guessing games, calculators, and simple
+            logic-based problems helped me understand how code works in real situations.
+          </p>
+          <p style="font-size:0.9rem; opacity:0.8; margin-top:8px;">
+            Currently, I am improving my problem-solving skills and learning how to write clean
+            and readable Python code.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color:#00e0ff; margin-bottom:10px;">🌍 Introduction to Geological Mapping</h3>
+          <p style="font-size:0.95rem; opacity:0.9;">
+            Geological mapping is an important part of understanding Earth’s surface and
+            subsurface features. I learned the basics of reading and interpreting geological
+            maps, including rock types, structures, symbols, and color codes.
+          </p>
+          <p style="font-size:0.9rem; opacity:0.8; margin-top:8px;">
+            This knowledge helps in visualizing geological formations and understanding the
+            relationship between different rock units in the field.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 style="color:#00e0ff; margin-bottom:10px;">💻 Using GitHub for Student Projects</h3>
+          <p style="font-size:0.95rem; opacity:0.9;">
+            GitHub has become an essential tool for managing my coding projects. I use it to
+            store my Python programs, website files, and practice projects. It helps me keep
+            track of changes and maintain proper versions of my work.
+          </p>
+          <p style="font-size:0.9rem; opacity:0.8; margin-top:8px;">
+            By using GitHub, I am also learning good development practices like writing clear
+            commits, organizing repositories, and showcasing my work as a portfolio.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <section id="contact">
     <div class="card">
       <h2>Contact</h2>
-      <div style="display:flex; gap:30px; justify-content:center; font-size:2rem;">
+      <div style="display:flex; gap:40px; justify-content:center;">
 
-        <a href="mailto:sayem@gmail.com" title="Email" style="color:#00e0ff; text-decoration:none;">
-          📧
-        </a>
+        <div style="text-align:center;">
+          <a href="mailto:sayem@gmail.com" title="Email" style="color:#00e0ff; text-decoration:none; font-size:2rem;">📧</a>
+          <div style="font-size:0.8rem; margin-top:5px;">Email</div>
+        </div>
 
-        <a href="https://github.com/geosayem" target="_blank" title="GitHub" style="color:#00e0ff; text-decoration:none;">
-          🐙
-        </a>
+        <div style="text-align:center;">
+          <a href="https://github.com/geosayem" target="_blank" title="GitHub" style="color:#00e0ff; text-decoration:none; font-size:2rem;">🐙</a>
+          <div style="font-size:0.8rem; margin-top:5px;">GitHub</div>
+        </div>
 
-        <a href="https://www.instagram.com/mohammadsayemansari" target="_blank" title="Instagram" style="color:#00e0ff; text-decoration:none;">
-          📸
-        </a>
+        <div style="text-align:center;">
+          <a href="https://www.instagram.com/mohammadsayemansari" target="_blank" title="Instagram" style="color:#00e0ff; text-decoration:none; font-size:2rem;">📸</a>
+          <div style="font-size:0.8rem; margin-top:5px;">Instagram</div>
+        </div>
 
-        <a href="https://www.linkedin.com/in/mohammad-sayem-ansari-a254451b7" target="_blank" title="LinkedIn" style="color:#00e0ff; text-decoration:none;">
-          🔗
-        </a>
+        <div style="text-align:center;">
+          <a href="https://www.linkedin.com/in/mohammad-sayem-ansari-a254451b7" target="_blank" title="LinkedIn" style="color:#00e0ff; text-decoration:none; font-size:2rem;">🔗</a>
+          <div style="font-size:0.8rem; margin-top:5px;">LinkedIn</div>
+        </div>
 
       </div>
     </div>
