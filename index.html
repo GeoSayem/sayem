@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mohammad Sayem Ansari | Geology & Code</title>
+  <title>Sayem Ansari | Geology & Code</title>
   <style>
     * {
       margin: 0;
@@ -35,12 +35,11 @@
     }
 
     nav {
-      background: rgba(255, 255, 255, 0.08);
+      background: transparent;
       backdrop-filter: blur(10px);
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      padding: 15px 0;
+      align-items: center;
+      padding: 15px 20px;
       position: sticky;
       top: 0;
     }
@@ -111,10 +110,21 @@
   </header>
 
   <nav>
-    <a href="#about">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
+    <div style="display:flex; align-items:center; gap:30px; position:absolute; left:50%; transform:translateX(-50%);">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <div style="margin-left:auto; margin-right:20px; position:relative;">
+      <input type="text" id="searchInput" placeholder="Search..." 
+        style="padding:6px 10px; border-radius:6px; border:none; outline:none;" />
+      <button onclick="searchSite()" 
+        style="margin-left:6px; padding:6px 10px; border:none; border-radius:6px; background:#00e0ff; cursor:pointer;">
+        Search
+      </button>
+    </div>
   </nav>
 
   <section id="about">
@@ -144,25 +154,16 @@
 
   <section id="projects">
     <div class="card">
-      <h2>Projects</h2>
-      <p>
-        • Python mini projects (games, utilities)<br />
-        • GitHub-hosted personal website<br />
-        • Learning-based experiments with code
-      </p>
-    </div>
-  </section>
-<section id="projects">
-    <div class="card">
       <h2>Tic Tac Toe Game (Python)</h2>
       <p>
         This is a simple console-based Tic Tac Toe game written in Python. It demonstrates
         game logic, functions, loops, and condition checking.
       </p>
-      <pre style="background:#0b1d26; padding:20px; border-radius:10px; overflow-x:auto;">
-<code>
-# Tic Tac Toe Game in Python
-# Author: Mohammad Sayem Ansari
+      <div style="position:relative;">
+      <button onclick="copyCode()" style="position:absolute; top:10px; right:10px; padding:6px 12px; border:none; border-radius:6px; background:#00e0ff; color:#000; cursor:pointer; font-size:0.85rem;">Copy</button>
+      <pre id="codeBlock" style="background:#0b1d26; padding:20px; border-radius:10px; overflow-x:auto;">
+<code># Tic Tac Toe Game in Python
+# Author: Sayem Ansari
 
 board = [' ' for _ in range(9)]
 
@@ -222,17 +223,27 @@ def play_game():
 play_game()
 </code>
       </pre>
+    </div>
       <p style="margin-top:10px; font-size:0.9rem; opacity:0.8;">
-        Note: Don't play this shit game.
-        Chal gya to chand tak, nhi chala to mujhse kya lena dena apna code likho..
+        Note: This game is shit don't play it.
       </p>
     </div>
   </section>
+
   <section id="contact">
     <div class="card">
       <h2>Contact</h2>
-       <p>Email: <a
-    href="mailto:sayemgeo@gmail.com/">sayemgeo@gmail.com</a></p>
+      <p>
+        📧 Email: 
+        <a href="mailto:sayem@gmail.com" style="color:#00e0ff; text-decoration:none;">
+          sayem@gmail.com
+        </a>
+        <br /><br />
+        💻 GitHub: 
+        <a href="https://github.com/geosayem" target="_blank" style="color:#00e0ff; text-decoration:none;">
+          github.com/geosayem
+        </a>
+      </p>
     </div>
   </section>
 
@@ -240,41 +251,35 @@ play_game()
     © 2026 Sayem Ansari • Built with ❤️ and curiosity
   </footer>
 
-</body>
-</html>
 <script>
-function copyCode() {
-const code = document.getElementById("codeBlock").innerText;
-navigator.clipboard.writeText(code).then(() => {
-alert("Code copied to clipboard! 🚀");
-});
-}
-function searchSite() {
-const query = document.getElementById("searchInput").value.toLowerCase();
-if (!query) {
-alert("Type something to search 🔍");
-return;
-}
+  function copyCode() {
+    const code = document.getElementById("codeBlock").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      alert("Code copied to clipboard! 🚀");
+    });
+  }
+  function searchSite() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    if (!query) {
+      alert("Type something to search 🔍");
+      return;
+    }
 
+    const sections = document.querySelectorAll("section");
+    let found = false;
 
-const sections = document.querySelectorAll("section");
-let found = false;
+    sections.forEach(section => {
+      if (section.innerText.toLowerCase().includes(query)) {
+        section.scrollIntoView({ behavior: "smooth" });
+        found = true;
+      }
+    });
 
-
-sections.forEach(section => {
-if (section.innerText.toLowerCase().includes(query)) {
-section.scrollIntoView({ behavior: "smooth" });
-found = true;
-}
-});
-
-
-if (!found) {
-alert("No results found 😕");
-}
-}
+    if (!found) {
+      alert("No results found 😕");
+    }
+  }
 </script>
-
 
 </body>
 </html>
