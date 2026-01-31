@@ -403,21 +403,35 @@ play_game()
   restartGame();
 </script>
 </div>
-</div>
   </section>
 <section id="games">
-  <div class="card" style="max-width:900px; margin:40px auto; text-align:center;">
+  <div class="card" style="max-width:5000px; margin:40px auto; text-align:center;">
     <h2>🎮 Snake Game</h2>
-    <p>Use Arrow Keys ⬅️⬆️➡️⬇️ to move</p>
+    <p>Use Arrow Keys ⬅️⬆️➡️⬇️ or Mobile Buttons</p>
     <p id="score">Score: 0</p>
-    <canvas id="snakeCanvas" width="320" height="320"
-            style="background:#102a3a; border-radius:12px; display:block; margin:0 auto;"></canvas>
+
+    <canvas id="snakeCanvas" width="320" height="320" 
+            style="background:#0b1d26; border-radius:12px; display:block; margin:0 auto;"></canvas>
+
+    <!-- Mobile Controls -->
+    <div id="mobile-controls" style="margin-top:10px;">
+      <div style="display:flex; justify-content:center; gap:10px;">
+        <button onclick="changeDir('UP')">⬆️</button>
+      </div>
+      <div style="display:flex; justify-content:center; gap:10px; margin-top:5px;">
+        <button onclick="changeDir('LEFT')">⬅️</button>
+        <button onclick="changeDir('DOWN')">⬇️</button>
+        <button onclick="changeDir('RIGHT')">➡️</button>
+      </div>
+    </div>
+
     <div style="margin-top:10px;">
       <button onclick="startGame()">Start</button>
       <button onclick="pauseGame()">Pause</button>
       <button onclick="resumeGame()">Resume</button>
       <button onclick="restartGame()">Restart</button>
     </div>
+
     <p id="status" style="margin-top:10px; font-weight:bold;">Press Start</p>
   </div>
 </section>
@@ -425,18 +439,17 @@ play_game()
 <script>
 const canvas = document.getElementById("snakeCanvas");
 const ctx = canvas.getContext("2d");
+const box = 20;
 
-const box = 20; // size of each cell
 let snake = [];
 let food = {};
 let dir = "RIGHT";
-let gameInterval;
-let speed = 250; // slower initial speed
+let gameInterval = null;
+let speed = 200; // initial speed
 let score = 0;
 let running = false;
 let paused = false;
 
-/* ---------- INIT GAME ---------- */
 function initGame() {
   snake = [
     {x:160, y:160},
@@ -445,15 +458,16 @@ function initGame() {
   ];
   dir = "RIGHT";
   food = generateFood();
-  speed = 250;
+  speed = 200;
   score = 0;
   running = false;
   paused = false;
+  clearInterval(gameInterval);
+  gameInterval = null;
   updateUI("Press Start");
-  draw();
+  draw(); // initial draw
 }
 
-/* ---------- GENERATE FOOD ---------- */
 function generateFood() {
   const x = Math.floor(Math.random() * 16) * box;
   const y = Math.floor(Math.random() * 16) * box;
@@ -461,36 +475,28 @@ function generateFood() {
   return {x, y};
 }
 
-/* ---------- DRAW ---------- */
 function draw() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  drawSnake();
-  drawFood();
-  moveSnake();
-}
+  ctx.fillStyle = "#0b1d26";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
 
-/* ---------- DRAW SNAKE ---------- */
-function drawSnake() {
-  snake.forEach((part,i) => {
-    ctx.fillStyle = i===0 ? "#2ecc71" : "#27ae60"; // head brighter
+  // Draw snake
+  snake.forEach((part, i)=>{
+    ctx.fillStyle = i===0 ? "#2ecc71" : "#27ae60";
     ctx.fillRect(part.x, part.y, box, box);
-    ctx.strokeStyle = "#0b1c24";
+    ctx.strokeStyle = "#145a32";
     ctx.strokeRect(part.x, part.y, box, box);
   });
-}
 
-/* ---------- DRAW FOOD ---------- */
-function drawFood() {
+  // Draw food
   ctx.fillStyle = "#e74c3c";
   ctx.beginPath();
   ctx.arc(food.x + box/2, food.y + box/2, box/2 - 2, 0, Math.PI*2);
   ctx.fill();
+
+  if(!running || paused) return; // don't move snake if paused/stopped
 }
 
-/* ---------- MOVE SNAKE ---------- */
 function moveSnake() {
-  if(!running || paused) return;
-
   let headX = snake[0].x;
   let headY = snake[0].y;
 
@@ -499,47 +505,47 @@ function moveSnake() {
   if(dir==="RIGHT") headX += box;
   if(dir==="DOWN") headY += box;
 
-  // GAME OVER CONDITIONS
   if(headX < 0 || headY < 0 || headX >= canvas.width || headY >= canvas.height ||
      snake.some(p => p.x===headX && p.y===headY)) {
-       endGame();
-       return;
+       return endGame();
   }
 
   const newHead = {x: headX, y: headY};
 
-  // EAT FOOD
   if(headX === food.x && headY === food.y){
     snake.unshift(newHead);
     food = generateFood();
     score++;
-    document.getElementById("score").innerText = "Score: " + score;
-    speed = Math.max(80, speed - 8); // gradually increase speed
+    speed = Math.max(80, speed - 5); // speed up slightly
     restartInterval();
   } else {
     snake.pop();
     snake.unshift(newHead);
   }
+  document.getElementById("score").innerText = "Score: " + score;
 }
 
-/* ---------- CONTROLS ---------- */
-document.addEventListener("keydown", e => {
-  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)){
-    e.preventDefault(); // block arrow scroll
-  }
+document.addEventListener("keydown", e=>{
+  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault();
   if(e.key==="ArrowLeft" && dir!=="RIGHT") dir="LEFT";
   if(e.key==="ArrowUp" && dir!=="DOWN") dir="UP";
   if(e.key==="ArrowRight" && dir!=="LEFT") dir="RIGHT";
   if(e.key==="ArrowDown" && dir!=="UP") dir="DOWN";
 });
 
-/* ---------- GAME FUNCTIONS ---------- */
+function changeDir(newDir){
+  if(newDir==="LEFT" && dir!=="RIGHT") dir="LEFT";
+  if(newDir==="UP" && dir!=="DOWN") dir="UP";
+  if(newDir==="RIGHT" && dir!=="LEFT") dir="RIGHT";
+  if(newDir==="DOWN" && dir!=="UP") dir="DOWN";
+}
+
 function startGame(){
   if(running) return;
   running = true;
   paused = false;
   updateUI("Playing");
-  gameInterval = setInterval(draw, speed);
+  restartInterval();
 }
 
 function pauseGame(){
@@ -552,7 +558,7 @@ function pauseGame(){
 function resumeGame(){
   if(!running || !paused) return;
   paused = false;
-  gameInterval = setInterval(draw, speed);
+  restartInterval();
   updateUI("Playing");
 }
 
@@ -570,18 +576,20 @@ function endGame(){
 
 function restartInterval(){
   clearInterval(gameInterval);
-  gameInterval = setInterval(draw, speed);
+  gameInterval = setInterval(()=>{
+    draw();
+    if(running && !paused) moveSnake();
+  }, speed);
 }
 
-function updateUI(text){
-  document.getElementById("status").innerText = text;
-  document.getElementById("score").innerText = "Score: " + score;
+function updateUI(msg){
+  document.getElementById("status").innerText = msg;
 }
 
-/* ---------- START ---------- */
 initGame();
 </script>
 </div>
+
     </div>
   </section>
   <section id="posts">
