@@ -178,6 +178,147 @@
       </div>
     </div>
   </section>
+  
+  <!-- ADVANCED TIC TAC TOE -->
+<div style="max-width:320px;margin:40px auto;text-align:center;">
+  <h2>🎮 Tic Tac Toe</h2>
+  <p>You: <b>X</b> | Computer: <b>O</b></p>
+  <p id="level" style="font-size:0.9rem;opacity:0.9;"></p>
+
+  <div id="ttt-board"
+       style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;">
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  </div>
+
+  <p id="status" style="margin-top:15px;font-weight:500;"></p>
+
+  <button onclick="restartGame()"
+          style="margin-top:10px;padding:8px 16px;border:none;
+                 border-radius:8px;background:#00e0ff;cursor:pointer;">
+    Restart
+  </button>
+</div>
+
+<style>
+  .cell{
+    height:90px;
+    background:rgba(0,0,0,0.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:2.2rem;
+    cursor:pointer;
+    border-radius:10px;
+  }
+  .cell:hover{ background:rgba(0,0,0,0.6); }
+</style>
+
+<script>
+  const cells = document.querySelectorAll("#ttt-board .cell");
+  const statusText = document.getElementById("status");
+  const levelText = document.getElementById("level");
+
+  let board = Array(9).fill("");
+  let gameOver = false;
+  let difficulty = 1; // increases when player wins
+
+  const wins = [
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+
+  function updateLevel(){
+    levelText.textContent = `AI Difficulty Level: ${difficulty}`;
+  }
+
+  function checkWin(p){
+    return wins.some(w => w.every(i => board[i] === p));
+  }
+
+  function getEmpty(){
+    return board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+  }
+
+  function findWinningMove(player){
+    for(const combo of wins){
+      const [a,b,c] = combo;
+      const values = [board[a],board[b],board[c]];
+      if(values.filter(v=>v===player).length===2 && values.includes("")){
+        return combo[values.indexOf("")];
+      }
+    }
+    return null;
+  }
+
+  function computerMove(){
+    if(gameOver) return;
+    let move = null;
+
+    // LEVEL 2+: try to block player
+    if(difficulty >= 2){
+      move = findWinningMove("X");
+    }
+
+    // LEVEL 3+: try to win
+    if(difficulty >= 3){
+      const winMove = findWinningMove("O");
+      if(winMove !== null) move = winMove;
+    }
+
+    // fallback: random
+    if(move === null){
+      const empty = getEmpty();
+      move = empty[Math.floor(Math.random()*empty.length)];
+    }
+
+    board[move] = "O";
+    cells[move].textContent = "O";
+
+    if(checkWin("O")){
+      statusText.textContent = "Computer wins 🤖";
+      gameOver = true;
+    }
+  }
+
+  function playerMove(i){
+    if(board[i] || gameOver) return;
+    board[i] = "X";
+    cells[i].textContent = "X";
+
+    if(checkWin("X")){
+      statusText.textContent = "You win 🎉 (AI leveled up!)";
+      difficulty++;
+      gameOver = true;
+      updateLevel();
+      return;
+    }
+
+    if(board.every(c => c)){
+      statusText.textContent = "Draw 😐";
+      return;
+    }
+
+    setTimeout(computerMove, 400);
+  }
+
+  function restartGame(){
+    board = Array(9).fill("");
+    gameOver = false;
+    statusText.textContent = "Your turn";
+    cells.forEach(c => c.textContent = "");
+    updateLevel();
+  }
+
+  cells.forEach((cell,i)=>{
+    cell.addEventListener("click", ()=>playerMove(i));
+  });
+
+  restartGame();
+</script>
+
 
   <section id="projects">
     <div class="card">
