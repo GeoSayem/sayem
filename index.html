@@ -5,388 +5,154 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sayem Ansari | Geology & Code</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", Tahoma, sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", Tahoma, sans-serif; }
+    body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #ffffff; line-height: 1.6; }
+    header { padding: 60px 20px; text-align: center; }
+    header h1 { font-size: 3rem; letter-spacing: 2px; }
+    header p { margin-top: 10px; font-size: 1.2rem; opacity: 0.9; }
 
-    body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #ffffff;
-      line-height: 1.6;
-    }
+    nav { background: transparent; backdrop-filter: blur(10px); display: flex; align-items: center; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; }
+    nav a { color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; }
+    nav a:hover { color: #00e0ff; }
 
-    header {
-      padding: 60px 20px;
-      text-align: center;
-    }
+    section { max-width: 1000px; margin: 60px auto; padding: 0 20px; scroll-margin-top: 90px; }
+    .card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .card h2 { margin-bottom: 15px; color: #00e0ff; }
 
-    header h1 {
-      font-size: 3rem;
-      letter-spacing: 2px;
-    }
+    .skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+    .skill { background: rgba(0,0,0,0.3); padding: 12px; text-align: center; border-radius: 10px; }
 
-    header p {
-      margin-top: 10px;
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    nav {
-      background: transparent;
-      backdrop-filter: blur(10px);
+    /* Tic Tac Toe styles */
+    .cell {
+      height: 90px;
+      background: rgba(0,0,0,0.4);
       display: flex;
       align-items: center;
-      padding: 15px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #00e0ff;
-    }
-
-    section {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
-      scroll-margin-top: 90px; /* prevents sticky navbar from covering section */
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 30px;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .card h2 {
-      margin-bottom: 15px;
-      color: #00e0ff;
-    }
-
-    .skills {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-    }
-
-    .skill {
-      background: rgba(0,0,0,0.3);
-      padding: 12px;
-      text-align: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      cursor: pointer;
       border-radius: 10px;
     }
+    .cell:hover { background: rgba(0,0,0,0.6); }
 
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: rgba(0,0,0,0.4);
-      margin-top: 60px;
-      font-size: 0.9rem;
-    }
+    footer { text-align: center; padding: 30px; background: rgba(0,0,0,0.4); margin-top: 60px; font-size: 0.9rem; }
 
     @media (max-width: 600px) {
-      header h1 {
-        font-size: 2.2rem;
-      }
-
-      /* Stack navbar items on mobile */
-      nav {
-        flex-direction: column;
-        padding: 10px;
-      }
-
-      nav > div:first-child {
-        position: static !important;
-        transform: none !important;
-        gap: 15px;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      /* Move search below nav links */
-      nav > div:last-child {
-        margin: 0 auto;
-      }
-
-      #searchInput {
-        width: 140px !important;
-        opacity: 1 !important;
-      }
-    }
+      header h1 { font-size: 2.2rem; }
+      nav { flex-direction: column; padding: 10px; }
+      nav > div:first-child { position: static !important; transform: none !important; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; justify-content: center; }
+      nav > div:last-child { margin: 0 auto; }
+      #searchInput { width: 140px !important; opacity: 1 !important; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Mohammad Sayem Ansari</h1>
-    <p>B.Sc. Geology Student | Python Learner | Curious Mind</p>
-  </header>
+<header>
+  <h1>Mohammad Sayem Ansari</h1>
+  <p>B.Sc. Geology Student | Python Learner | Curious Mind</p>
+</header>
 
-  <nav>
-    <div style="display:flex; align-items:center; gap:30px; position:absolute; left:50%; transform:translateX(-50%);">
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#posts">Posts</a>
-      <a href="#contact">Contact</a>
+<nav>
+  <div style="display:flex; align-items:center; gap:30px; position:absolute; left:50%; transform:translateX(-50%);">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#posts">Posts</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div style="margin-left:auto; margin-right:20px; position:relative; display:flex; align-items:center; margin-top:8px;">
+    <input type="text" id="searchInput" placeholder="Search..."
+      style="width:0; opacity:0; padding:6px 10px; border-radius:20px; border:none; outline:none; transition:all 0.3s ease;" />
+    <button onclick="toggleSearch()"
+      style="margin-left:8px; padding:8px 10px; border:none; border-radius:50%; background:rgba(0,0,0,0.35); cursor:pointer; font-size:1.2rem; color:#ffffff; box-shadow:0 0 8px rgba(0,224,255,0.6);">🔍</button>
+  </div>
+</nav>
+
+<section id="about"><div class="card"><h2>About Me</h2><p>I am a B.Sc. Geology student from Aligarh Muslim University with a strong interest in technology and programming.</p></div></section>
+
+<section id="skills"><div class="card"><h2>Skills</h2><div class="skills"><div class="skill">Python</div><div class="skill">HTML & CSS</div><div class="skill">Git & GitHub</div><div class="skill">Data Analysis (Basic)</div><div class="skill">Geology Fundamentals</div></div></div></section>
+
+<section id="projects">
+  <div class="card">
+    <h2>Tic Tac Toe (Play on Website)</h2>
+    <p>You are <b>X</b>. Computer is <b>O</b>. Click a cell to play.</p>
+
+    <div id="game" style="max-width:300px; margin:30px auto; text-align:center;">
+      <div id="board" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;"></div>
+      <p id="status" style="margin-top:15px; font-weight:500;"></p>
+      <button onclick="restartGame()" style="margin-top:15px; padding:8px 16px; border:none; border-radius:8px; background:#00e0ff; cursor:pointer;">Restart Game</button>
     </div>
+  </div>
+</section>
 
-    <div style="margin-left:auto; margin-right:20px; position:relative; display:flex; align-items:center; margin-top:8px;">
-      <input type="text" id="searchInput" placeholder="Search..."
-        style="width:0; opacity:0; padding:6px 10px; border-radius:20px; border:none; outline:none; transition:all 0.3s ease;" />
-      <button onclick="toggleSearch()"
-        style="margin-left:8px; padding:8px 10px; border:none; border-radius:50%; background:rgba(0,0,0,0.35); cursor:pointer; font-size:1.2rem; color:#ffffff; box-shadow:0 0 8px rgba(0,224,255,0.6);">🔍</button>
-    </div>
-  </nav>
+<section id="posts"><div class="card"><h2>Posts</h2><p>Learning notes on Python, geology, and GitHub.</p></div></section>
 
-  <section id="about">
-    <div class="card">
-      <h2>About Me</h2>
-      <p>
-        I am a B.Sc. Geology student from Aligarh Muslim University with a strong
-        interest in technology and programming. I enjoy learning Python,
-        exploring data, and combining geological science with modern computing
-        tools.
-      </p>
-    </div>
-  </section>
+<section id="contact"><div class="card"><h2>Contact</h2><div style="display:flex; gap:40px; justify-content:center;"><div style="text-align:center;"><a href="mailto:sayem@gmail.com" style="font-size:2rem;">📧</a><div>Email</div></div><div style="text-align:center;"><a href="https://github.com/geosayem" target="_blank" style="font-size:2rem;">🐙</a><div>GitHub</div></div></div></div></section>
 
-  <section id="skills">
-    <div class="card">
-      <h2>Skills</h2>
-      <div class="skills">
-        <div class="skill">Python</div>
-        <div class="skill">HTML & CSS</div>
-        <div class="skill">Git & GitHub</div>
-        <div class="skill">Data Analysis (Basic)</div>
-        <div class="skill">Geology Fundamentals</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="card">
-      <h2>Tic Tac Toe Game (Python)</h2>
-      <p>
-        This is a simple console-based Tic Tac Toe game written in Python. It demonstrates
-        game logic, functions, loops, and condition checking.
-      </p>
-      <div style="position:relative;">
-      <button onclick="copyCode()" style="position:absolute; top:10px; right:10px; padding:6px 12px; border:none; border-radius:6px; background:#00e0ff; color:#000; cursor:pointer; font-size:0.85rem;">Copy</button>
-      <pre id="codeBlock" style="background:#0b1d26; padding:20px; border-radius:10px; overflow-x:auto;">
-<code># Tic Tac Toe Game in Python
-# Author: Sayem Ansari
-
-board = [' ' for _ in range(9)]
-
-def print_board():
-    print()
-    print(board[0], '|', board[1], '|', board[2])
-    print('--+---+--')
-    print(board[3], '|', board[4], '|', board[5])
-    print('--+---+--')
-    print(board[6], '|', board[7], '|', board[8])
-    print()
-
-def check_win(player):
-    wins = [
-        (0,1,2), (3,4,5), (6,7,8),
-        (0,3,6), (1,4,7), (2,5,8),
-        (0,4,8), (2,4,6)
-    ]
-    for a, b, c in wins:
-        if board[a] == board[b] == board[c] == player:
-            return True
-    return False
-
-def play_game():
-    current_player = 'X'
-    turns = 0
-
-    while turns < 9:
-        print_board()
-        try:
-            move = int(input(f"Player {current_player}, choose position (1-9): ")) - 1
-        except ValueError:
-            print("❌ Please enter a number between 1 and 9.")
-            continue
-
-        if move < 0 or move > 8:
-            print("❌ Invalid position. Choose 1-9.")
-            continue
-
-        if board[move] != ' ':
-            print("❌ Position already taken.")
-            continue
-
-        board[move] = current_player
-        turns += 1
-
-        if check_win(current_player):
-            print_board()
-            print(f"🎉 Player {current_player} wins!")
-            return
-
-        current_player = 'O' if current_player == 'X' else 'X'
-
-    print_board()
-    print("🤝 It's a draw!")
-
-play_game()
-</code>
-      </pre>
-    </div>
-      <p style="margin-top:10px; font-size:0.9rem; opacity:0.8;">
-        Note: This game is shit don't play it.
-      </p>
-    </div>
-  </section>
-
-  <section id="posts">
-    <div class="card">
-      <h2>Posts</h2>
-      <p style="opacity:0.9;">
-      
-      </p>
-
-      <div style="margin-top:25px; display:grid; gap:20px;">
-
-        <div class="card">
-          <h3 style="color:#00e0ff; margin-bottom:10px;">📝 Learning Python: Basics & Practice</h3>
-          <p style="font-size:0.95rem; opacity:0.9;">
-            I started learning Python to build a strong foundation in programming. I focused on
-            basics like variables, data types, conditional statements, loops, and functions.
-            Practicing small programs such as number guessing games, calculators, and simple
-            logic-based problems helped me understand how code works in real situations.
-          </p>
-          <p style="font-size:0.9rem; opacity:0.8; margin-top:8px;">
-            Currently, I am improving my problem-solving skills and learning how to write clean
-            and readable Python code.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3 style="color:#00e0ff; margin-bottom:10px;">🌍 Introduction to Geological Mapping</h3>
-          <p style="font-size:0.95rem; opacity:0.9;">
-            Geological mapping is an important part of understanding Earth’s surface and
-            subsurface features. I learned the basics of reading and interpreting geological
-            maps, including rock types, structures, symbols, and color codes.
-          </p>
-          <p style="font-size:0.9rem; opacity:0.8; margin-top:8px;">
-            This knowledge helps in visualizing geological formations and understanding the
-            relationship between different rock units in the field.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3 style="color:#00e0ff; margin-bottom:10px;">💻 Using GitHub for Student Projects</h3>
-          <p style="font-size:0.95rem; opacity:0.9;">
-            GitHub has become an essential tool for managing my coding projects. I use it to
-            store my Python programs, website files, and practice projects. It helps me keep
-            track of changes and maintain proper versions of my work.
-          </p>
-          <p style="font-size:0.9rem; opacity:0.8; margin-top:8px;">
-            By using GitHub, I am also learning good development practices like writing clear
-            commits, organizing repositories, and showcasing my work as a portfolio.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="card">
-      <h2>Contact</h2>
-      <div style="display:flex; gap:40px; justify-content:center;">
-
-        <div style="text-align:center;">
-          <a href="mailto:sayem@gmail.com" title="Email" style="color:#00e0ff; text-decoration:none; font-size:2rem;">📧</a>
-          <div style="font-size:0.8rem; margin-top:5px;">Email</div>
-        </div>
-
-        <div style="text-align:center;">
-          <a href="https://github.com/geosayem" target="_blank" title="GitHub" style="color:#00e0ff; text-decoration:none; font-size:2rem;">🐙</a>
-          <div style="font-size:0.8rem; margin-top:5px;">GitHub</div>
-        </div>
-
-        <div style="text-align:center;">
-          <a href="https://www.instagram.com/mohammadsayemansari" target="_blank" title="Instagram" style="color:#00e0ff; text-decoration:none; font-size:2rem;">📸</a>
-          <div style="font-size:0.8rem; margin-top:5px;">Instagram</div>
-        </div>
-
-        <div style="text-align:center;">
-          <a href="https://www.linkedin.com/in/mohammad-sayem-ansari-a254451b7" target="_blank" title="LinkedIn" style="color:#00e0ff; text-decoration:none; font-size:2rem;">🔗</a>
-          <div style="font-size:0.8rem; margin-top:5px;">LinkedIn</div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    © 2026 Sayem Ansari • Built with ❤️ and curiosity
-  </footer>
+<footer>© 2026 Sayem Ansari</footer>
 
 <script>
-  function copyCode() {
-    const code = document.getElementById("codeBlock").innerText;
-    navigator.clipboard.writeText(code).then(() => {
-      alert("Code copied to clipboard! 🚀");
-    });
+/* Search */
+function toggleSearch() {
+  const input = document.getElementById("searchInput");
+  if (input.style.width === "0px" || input.style.width === "") {
+    input.style.width = "160px"; input.style.opacity = "1"; input.focus();
+  } else {
+    input.style.width = "0"; input.style.opacity = "0"; input.value = "";
   }
-  function searchSite() {
-    const query = document.getElementById("searchInput").value.toLowerCase();
-    if (!query) {
-      alert("Type something to search 🔍");
-      return;
-    }
+}
 
-    const sections = document.querySelectorAll("section");
-    let found = false;
+/* Tic Tac Toe Logic */
+const boardElement = document.getElementById("board");
+const statusText = document.getElementById("status");
+let board, gameOver;
 
-    sections.forEach(section => {
-      if (section.innerText.toLowerCase().includes(query)) {
-        section.scrollIntoView({ behavior: "smooth" });
-        found = true;
-      }
-    });
+function initBoard() {
+  boardElement.innerHTML = "";
+  board = Array(9).fill("");
+  gameOver = false;
+  statusText.textContent = "Your turn";
 
-    if (!found) {
-      alert("No results found 😕");
-    }
-  }
-  function toggleSearch() {
-    const input = document.getElementById("searchInput");
-    if (input.style.width === "0px" || input.style.width === "") {
-      input.style.width = "160px";
-      input.style.opacity = "1";
-      input.focus();
-    } else {
-      if (input.value.trim() !== "") {
-        searchSite();
-      }
-      input.style.width = "0";
-      input.style.opacity = "0";
-      input.value = "";
-    }
-  }
+  board.forEach((_, i) => {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.addEventListener("click", () => playerMove(i));
+    boardElement.appendChild(cell);
+  });
+}
+
+function playerMove(index) {
+  if (board[index] || gameOver) return;
+  board[index] = "X";
+  updateUI();
+  if (checkWin("X")) return endGame("You win 🎉");
+  if (board.every(c => c)) return endGame("Draw 😐");
+  setTimeout(computerMove, 400);
+}
+
+function computerMove() {
+  const empty = board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
+  const move = empty[Math.floor(Math.random()*empty.length)];
+  board[move] = "O";
+  updateUI();
+  if (checkWin("O")) endGame("Computer wins 🤖");
+}
+
+function updateUI() {
+  document.querySelectorAll('.cell').forEach((cell,i)=>cell.textContent = board[i]);
+}
+
+function checkWin(p) {
+  const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  return w.some(c=>c.every(i=>board[i]===p));
+}
+
+function endGame(msg) { gameOver = true; statusText.textContent = msg; }
+function restartGame() { initBoard(); }
+
+initBoard();
 </script>
-
 </body>
 </html>
