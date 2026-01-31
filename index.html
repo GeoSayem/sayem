@@ -142,6 +142,7 @@
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
+      <a href="#games">Games</a>
       <a href="#posts">Posts</a>
       <a href="#contact">Contact</a>
     </div>
@@ -178,7 +179,90 @@
       </div>
     </div>
   </section>
-  
+ 
+
+
+  <section id="projects">
+    <div class="card">
+      <h2>Tic Tac Toe Game (Python)</h2>
+      <p>
+        This is a simple console-based Tic Tac Toe game written in Python. It demonstrates
+        game logic, functions, loops, and condition checking.
+      </p>
+      <div style="position:relative;">
+      <button onclick="copyCode()" style="position:absolute; top:10px; right:10px; padding:6px 12px; border:none; border-radius:6px; background:#00e0ff; color:#000; cursor:pointer; font-size:0.85rem;">Copy</button>
+      <pre id="codeBlock" style="background:#0b1d26; padding:20px; border-radius:10px; overflow-x:auto;">
+<code># Tic Tac Toe Game in Python
+# Author: Sayem Ansari
+
+board = [' ' for _ in range(9)]
+
+def print_board():
+    print()
+    print(board[0], '|', board[1], '|', board[2])
+    print('--+---+--')
+    print(board[3], '|', board[4], '|', board[5])
+    print('--+---+--')
+    print(board[6], '|', board[7], '|', board[8])
+    print()
+
+def check_win(player):
+    wins = [
+        (0,1,2), (3,4,5), (6,7,8),
+        (0,3,6), (1,4,7), (2,5,8),
+        (0,4,8), (2,4,6)
+    ]
+    for a, b, c in wins:
+        if board[a] == board[b] == board[c] == player:
+            return True
+    return False
+
+def play_game():
+    current_player = 'X'
+    turns = 0
+
+    while turns < 9:
+        print_board()
+        try:
+            move = int(input(f"Player {current_player}, choose position (1-9): ")) - 1
+        except ValueError:
+            print("❌ Please enter a number between 1 and 9.")
+            continue
+
+        if move < 0 or move > 8:
+            print("❌ Invalid position. Choose 1-9.")
+            continue
+
+        if board[move] != ' ':
+            print("❌ Position already taken.")
+            continue
+
+        board[move] = current_player
+        turns += 1
+
+        if check_win(current_player):
+            print_board()
+            print(f"🎉 Player {current_player} wins!")
+            return
+
+        current_player = 'O' if current_player == 'X' else 'X'
+
+    print_board()
+    print("🤝 It's a draw!")
+
+play_game()
+</code>
+      </pre>
+    </div>
+      <p style="margin-top:10px; font-size:0.9rem; opacity:0.8;">
+        Note: This game is shit don't play it.
+      </p>
+    </div>
+  </section>
+
+<section id="games">
+  <div class="card">
+    <h2>🎮 Games</h2> 
   <!-- ADVANCED TIC TAC TOE -->
 <div style="max-width:320px;margin:40px auto;text-align:center;">
   <h2>🎮 Tic Tac Toe</h2>
@@ -318,86 +402,188 @@
 
   restartGame();
 </script>
-
-
-  <section id="projects">
-    <div class="card">
-      <h2>Tic Tac Toe Game (Python)</h2>
-      <p>
-        This is a simple console-based Tic Tac Toe game written in Python. It demonstrates
-        game logic, functions, loops, and condition checking.
-      </p>
-      <div style="position:relative;">
-      <button onclick="copyCode()" style="position:absolute; top:10px; right:10px; padding:6px 12px; border:none; border-radius:6px; background:#00e0ff; color:#000; cursor:pointer; font-size:0.85rem;">Copy</button>
-      <pre id="codeBlock" style="background:#0b1d26; padding:20px; border-radius:10px; overflow-x:auto;">
-<code># Tic Tac Toe Game in Python
-# Author: Sayem Ansari
-
-board = [' ' for _ in range(9)]
-
-def print_board():
-    print()
-    print(board[0], '|', board[1], '|', board[2])
-    print('--+---+--')
-    print(board[3], '|', board[4], '|', board[5])
-    print('--+---+--')
-    print(board[6], '|', board[7], '|', board[8])
-    print()
-
-def check_win(player):
-    wins = [
-        (0,1,2), (3,4,5), (6,7,8),
-        (0,3,6), (1,4,7), (2,5,8),
-        (0,4,8), (2,4,6)
-    ]
-    for a, b, c in wins:
-        if board[a] == board[b] == board[c] == player:
-            return True
-    return False
-
-def play_game():
-    current_player = 'X'
-    turns = 0
-
-    while turns < 9:
-        print_board()
-        try:
-            move = int(input(f"Player {current_player}, choose position (1-9): ")) - 1
-        except ValueError:
-            print("❌ Please enter a number between 1 and 9.")
-            continue
-
-        if move < 0 or move > 8:
-            print("❌ Invalid position. Choose 1-9.")
-            continue
-
-        if board[move] != ' ':
-            print("❌ Position already taken.")
-            continue
-
-        board[move] = current_player
-        turns += 1
-
-        if check_win(current_player):
-            print_board()
-            print(f"🎉 Player {current_player} wins!")
-            return
-
-        current_player = 'O' if current_player == 'X' else 'X'
-
-    print_board()
-    print("🤝 It's a draw!")
-
-play_game()
-</code>
-      </pre>
+</div>
+</div>
+  </section>
+<section id="games">
+  <div class="card" style="max-width:900px; margin:40px auto; text-align:center;">
+    <h2>🎮 Snake Game</h2>
+    <p>Use Arrow Keys ⬅️⬆️➡️⬇️ to move</p>
+    <p id="score">Score: 0</p>
+    <canvas id="snakeCanvas" width="420" height="420"
+            style="background:#102a3a; border-radius:12px; display:block; margin:0 auto;"></canvas>
+    <div style="margin-top:10px;">
+      <button onclick="startGame()">Start</button>
+      <button onclick="pauseGame()">Pause</button>
+      <button onclick="resumeGame()">Resume</button>
+      <button onclick="restartGame()">Restart</button>
     </div>
-      <p style="margin-top:10px; font-size:0.9rem; opacity:0.8;">
-        Note: This game is shit don't play it.
-      </p>
+    <p id="status" style="margin-top:10px; font-weight:bold;">Press Start</p>
+  </div>
+</section>
+
+<script>
+const canvas = document.getElementById("snakeCanvas");
+const ctx = canvas.getContext("2d");
+
+const box = 20; // size of each cell
+let snake = [];
+let food = {};
+let dir = "RIGHT";
+let gameInterval;
+let speed = 250; // slower initial speed
+let score = 0;
+let running = false;
+let paused = false;
+
+/* ---------- INIT GAME ---------- */
+function initGame() {
+  snake = [
+    {x:160, y:160},
+    {x:140, y:160},
+    {x:120, y:160}
+  ];
+  dir = "RIGHT";
+  food = generateFood();
+  speed = 250;
+  score = 0;
+  running = false;
+  paused = false;
+  updateUI("Press Start");
+  draw();
+}
+
+/* ---------- GENERATE FOOD ---------- */
+function generateFood() {
+  const x = Math.floor(Math.random() * 16) * box;
+  const y = Math.floor(Math.random() * 16) * box;
+  if(snake.some(s => s.x===x && s.y===y)) return generateFood();
+  return {x, y};
+}
+
+/* ---------- DRAW ---------- */
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawSnake();
+  drawFood();
+  moveSnake();
+}
+
+/* ---------- DRAW SNAKE ---------- */
+function drawSnake() {
+  snake.forEach((part,i) => {
+    ctx.fillStyle = i===0 ? "#2ecc71" : "#27ae60"; // head brighter
+    ctx.fillRect(part.x, part.y, box, box);
+    ctx.strokeStyle = "#0b1c24";
+    ctx.strokeRect(part.x, part.y, box, box);
+  });
+}
+
+/* ---------- DRAW FOOD ---------- */
+function drawFood() {
+  ctx.fillStyle = "#e74c3c";
+  ctx.beginPath();
+  ctx.arc(food.x + box/2, food.y + box/2, box/2 - 2, 0, Math.PI*2);
+  ctx.fill();
+}
+
+/* ---------- MOVE SNAKE ---------- */
+function moveSnake() {
+  if(!running || paused) return;
+
+  let headX = snake[0].x;
+  let headY = snake[0].y;
+
+  if(dir==="LEFT") headX -= box;
+  if(dir==="UP") headY -= box;
+  if(dir==="RIGHT") headX += box;
+  if(dir==="DOWN") headY += box;
+
+  // GAME OVER CONDITIONS
+  if(headX < 0 || headY < 0 || headX >= canvas.width || headY >= canvas.height ||
+     snake.some(p => p.x===headX && p.y===headY)) {
+       endGame();
+       return;
+  }
+
+  const newHead = {x: headX, y: headY};
+
+  // EAT FOOD
+  if(headX === food.x && headY === food.y){
+    snake.unshift(newHead);
+    food = generateFood();
+    score++;
+    document.getElementById("score").innerText = "Score: " + score;
+    speed = Math.max(80, speed - 8); // gradually increase speed
+    restartInterval();
+  } else {
+    snake.pop();
+    snake.unshift(newHead);
+  }
+}
+
+/* ---------- CONTROLS ---------- */
+document.addEventListener("keydown", e => {
+  if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)){
+    e.preventDefault(); // block arrow scroll
+  }
+  if(e.key==="ArrowLeft" && dir!=="RIGHT") dir="LEFT";
+  if(e.key==="ArrowUp" && dir!=="DOWN") dir="UP";
+  if(e.key==="ArrowRight" && dir!=="LEFT") dir="RIGHT";
+  if(e.key==="ArrowDown" && dir!=="UP") dir="DOWN";
+});
+
+/* ---------- GAME FUNCTIONS ---------- */
+function startGame(){
+  if(running) return;
+  running = true;
+  paused = false;
+  updateUI("Playing");
+  gameInterval = setInterval(draw, speed);
+}
+
+function pauseGame(){
+  if(!running || paused) return;
+  paused = true;
+  clearInterval(gameInterval);
+  updateUI("Paused");
+}
+
+function resumeGame(){
+  if(!running || !paused) return;
+  paused = false;
+  gameInterval = setInterval(draw, speed);
+  updateUI("Playing");
+}
+
+function restartGame(){
+  clearInterval(gameInterval);
+  initGame();
+}
+
+function endGame(){
+  clearInterval(gameInterval);
+  running = false;
+  paused = false;
+  updateUI("💀 Game Over! Press Restart");
+}
+
+function restartInterval(){
+  clearInterval(gameInterval);
+  gameInterval = setInterval(draw, speed);
+}
+
+function updateUI(text){
+  document.getElementById("status").innerText = text;
+  document.getElementById("score").innerText = "Score: " + score;
+}
+
+/* ---------- START ---------- */
+initGame();
+</script>
+</div>
     </div>
   </section>
-
   <section id="posts">
     <div class="card">
       <h2>Posts</h2>
