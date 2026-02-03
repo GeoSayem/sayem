@@ -263,144 +263,207 @@ play_game()
 <section id="games">
   <div class="card">
     <h2>🎮 Games</h2> 
-  <!-- ADVANCED TIC TAC TOE -->
-<div style="max-width:320px;margin:40px auto;text-align:center;">
-  <h2>🎮 Tic Tac Toe</h2>
-  <p>You: <b>X</b> | Computer: <b>O</b></p>
-  <p id="level" style="font-size:0.9rem;opacity:0.9;"></p>
-
-  <div id="ttt-board"
-       style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px;">
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div>
-  </div>
-
-  <p id="status" style="margin-top:15px;font-weight:500;"></p>
-
-  <button onclick="restartGame()"
-          style="margin-top:10px;padding:8px 16px;border:none;
-                 border-radius:8px;background:#00e0ff;cursor:pointer;">
-    Restart
-  </button>
-</div>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Tic Tac Toe | AI</title>
 
 <style>
-  .cell{
-    height:90px;
-    background:rgba(0,0,0,0.4);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:2.2rem;
-    cursor:pointer;
-    border-radius:10px;
-  }
-  .cell:hover{ background:rgba(0,0,0,0.6); }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game {
+    text-align: center;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 10px;
+    margin: 20px auto;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    background: #1e293b;
+    border-radius: 10px;
+    font-size: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background: #334155;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #22c55e;
+    color: black;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 18px;
+}
 </style>
+</head>
+
+<body>
+
+<div class="game">
+    <h1>🔥 Tic Tac Toe</h1>
+    <p>You (X) vs Computer (O)</p>
+
+    <div class="board" id="board"></div>
+    <div class="status" id="status"></div>
+
+    <button onclick="restartGame()">Restart</button>
+</div>
 
 <script>
-  const cells = document.querySelectorAll("#ttt-board .cell");
-  const statusText = document.getElementById("status");
-  const levelText = document.getElementById("level");
+const HUMAN = "X";
+const AI = "O";
 
-  let board = Array(9).fill("");
-  let gameOver = false;
-  let difficulty = 1; // increases when player wins
+let board = Array(9).fill("");
+let gameOver = false;
 
-  const wins = [
+const winPatterns = [
     [0,1,2],[3,4,5],[6,7,8],
     [0,3,6],[1,4,7],[2,5,8],
     [0,4,8],[2,4,6]
-  ];
+];
 
-  function updateLevel(){
-    levelText.textContent = `AI Difficulty Level: ${difficulty}`;
-  }
+const boardDiv = document.getElementById("board");
+const statusText = document.getElementById("status");
 
-  function checkWin(p){
-    return wins.some(w => w.every(i => board[i] === p));
-  }
+function drawBoard() {
+    boardDiv.innerHTML = "";
+    board.forEach((val, i) => {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.innerText = val;
+        cell.onclick = () => playerMove(i);
+        boardDiv.appendChild(cell);
+    });
+}
 
-  function getEmpty(){
-    return board.map((v,i)=>v===""?i:null).filter(v=>v!==null);
-  }
+function playerMove(index) {
+    if (board[index] !== "" || gameOver) return;
 
-  function findWinningMove(player){
-    for(const combo of wins){
-      const [a,b,c] = combo;
-      const values = [board[a],board[b],board[c]];
-      if(values.filter(v=>v===player).length===2 && values.includes("")){
-        return combo[values.indexOf("")];
-      }
+    board[index] = HUMAN;
+    if (checkRealGameOver()) return;
+
+    setTimeout(aiMove, 300);
+}
+
+function aiMove() {
+    let bestScore = -Infinity;
+    let move;
+
+    for (let i = 0; i < 9; i++) {
+        if (board[i] === "") {
+            board[i] = AI;
+            let score = minimax(board, 0, false);
+            board[i] = "";
+            if (score > bestScore) {
+                bestScore = score;
+                move = i;
+            }
+        }
     }
+
+    board[move] = AI;
+    checkRealGameOver();
+    drawBoard();
+}
+
+function minimax(tempBoard, depth, isMax) {
+    let result = evaluateBoard(tempBoard);
+    if (result !== null) return result - depth;
+
+    if (isMax) {
+        let best = -Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (tempBoard[i] === "") {
+                tempBoard[i] = AI;
+                best = Math.max(best, minimax(tempBoard, depth + 1, false));
+                tempBoard[i] = "";
+            }
+        }
+        return best;
+    } else {
+        let best = Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (tempBoard[i] === "") {
+                tempBoard[i] = HUMAN;
+                best = Math.min(best, minimax(tempBoard, depth + 1, true));
+                tempBoard[i] = "";
+            }
+        }
+        return best;
+    }
+}
+
+function evaluateBoard(bd) {
+    for (let p of winPatterns) {
+        const [a,b,c] = p;
+        if (bd[a] && bd[a] === bd[b] && bd[a] === bd[c]) {
+            return bd[a] === AI ? 10 : -10;
+        }
+    }
+    if (!bd.includes("")) return 0;
     return null;
-  }
+}
 
-  function computerMove(){
-    if(gameOver) return;
-    let move = null;
-
-    // LEVEL 2+: try to block player
-    if(difficulty >= 2){
-      move = findWinningMove("X");
+function checkRealGameOver() {
+    for (let p of winPatterns) {
+        const [a,b,c] = p;
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            gameOver = true;
+            statusText.innerText = board[a] === HUMAN
+                ? "🎉 You Win!"
+                : "💀 Computer Wins!";
+            drawBoard();
+            return true;
+        }
     }
 
-    // LEVEL 3+: try to win
-    if(difficulty >= 3){
-      const winMove = findWinningMove("O");
-      if(winMove !== null) move = winMove;
+    if (!board.includes("")) {
+        gameOver = true;
+        statusText.innerText = "🤝 Draw!";
+        drawBoard();
+        return true;
     }
 
-    // fallback: random
-    if(move === null){
-      const empty = getEmpty();
-      move = empty[Math.floor(Math.random()*empty.length)];
-    }
+    drawBoard();
+    return false;
+}
 
-    board[move] = "O";
-    cells[move].textContent = "O";
-
-    if(checkWin("O")){
-      statusText.textContent = "Computer wins 🤖";
-      gameOver = true;
-    }
-  }
-
-  function playerMove(i){
-    if(board[i] || gameOver) return;
-    board[i] = "X";
-    cells[i].textContent = "X";
-
-    if(checkWin("X")){
-      statusText.textContent = "You win 🎉 (AI leveled up!)";
-      difficulty++;
-      gameOver = true;
-      updateLevel();
-      return;
-    }
-
-    if(board.every(c => c)){
-      statusText.textContent = "Draw 😐";
-      return;
-    }
-
-    setTimeout(computerMove, 400);
-  }
-
-  function restartGame(){
+function restartGame() {
     board = Array(9).fill("");
     gameOver = false;
-    statusText.textContent = "Your turn";
-    cells.forEach(c => c.textContent = "");
-    updateLevel();
-  }
+    statusText.innerText = "";
+    drawBoard();
+}
 
-  cells.forEach((cell,i)=>{
-    cell.addEventListener("click", ()=>playerMove(i));
-  });
-
-  restartGame();
+drawBoard();
 </script>
 </div>
   </section>
